@@ -9,8 +9,9 @@ A hands-on network engineering project built with **physical Cisco routers and s
 > **Project scope:** This is my independent home lab, not an employer production network. Implemented features are distinguished from proposed upgrades. The [architecture and validation notes](architecture-and-validation.md) identify design details that still need confirmation against running configurations.
 
 ## Physical Lab & Demonstration
+## Network Topology
 
-![Physical Cisco and Fortinet lab equipment](lab-photo-1.jpg)
+![Enterprise Network Topology](Enterprise Network Engineering Lab Diagram.png)
 
 ![Network lab and monitoring setup](lab-photo-2.jpg)
 
