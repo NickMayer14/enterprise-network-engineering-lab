@@ -11,7 +11,7 @@ A hands-on network engineering project built with **physical Cisco routers and s
 ## Physical Lab & Demonstration
 ## Network Topology
 
-![Enterprise Network Topology](Enterprise%20Network%20Engineering%20Lab%20Diagram.png)
+
 
 ![Network lab and monitoring setup](lab-photo-2.jpg)
 
