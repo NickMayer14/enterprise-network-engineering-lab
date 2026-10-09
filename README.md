@@ -11,8 +11,7 @@ A hands-on network engineering project built with **physical Cisco routers and s
 ## Physical Lab & Demonstration
 ## Network Topology
 
-
-
+![Enterprise Network Topology](Mykyta_Enterprise_Network_Topology.png)
 ![Network lab and monitoring setup](lab-photo-2.jpg)
 
 **[Watch the lab walkthrough (MP4)](lab-demo.mp4)**
