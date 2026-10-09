@@ -7,11 +7,11 @@
 A hands-on network engineering project built with **physical Cisco routers and switches**, a **Fortinet FortiGate 80E firewall**, and **Zabbix monitoring**. I designed this lab to practice enterprise-style network segmentation, routing, first-hop redundancy, network security, monitoring, and systematic troubleshooting on real hardware.
 
 > **Project scope:** This is my independent home lab, not an employer production network. Implemented features are distinguished from proposed upgrades. The [architecture and validation notes](architecture-and-validation.md) identify design details that still need confirmation against running configurations.
-
-## Physical Lab & Demonstration
 ## Network Topology
 
 ![Enterprise Network Topology](Mykyta_Enterprise_Network_Topology.png)
+## Physical Lab & Demonstration
+
 ![Network lab and monitoring setup](lab-photo-2.jpg)
 
 **[Watch the lab walkthrough (MP4)](lab-demo.mp4)**
