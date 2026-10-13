@@ -1,18 +1,17 @@
+Hands-on, independently built network engineering lab using physical Cisco routers and switches and a FortiGate 80E firewall. The goal is to practice designing, configuring, validating, monitoring, and troubleshooting a small enterprise-style network.
+
+> **Scope:** Personal lab, not a production network or an employer-owned deployment. Configuration examples and architecture descriptions are for demonstration; see [validation notes](docs/architecture-and-validation.md) for details requiring clarification.
+
 # Enterprise Network Engineering Lab
 ![Enterprise Network Topology](Enterprise%20Network%20Engineering%20Lab%20Diagram.png)
 **Cisco Routing & Switching · Fortinet FortiGate · VRRP · VLAN Segmentation · Zabbix**
 
 ## Network Device Configurations
 
-Cisco IOS and FortiGate configuration examples covering VLANs,
+Cisco IOS and FortiGate configurations covering VLANs,
 802.1Q trunking, VRRP, PAgP EtherChannel, SSH, DHCP, and routing.
 
 [View Network Device Configurations](Network_Lab_Updated_Configs_REVIEW.txt)
-
-Hands-on, independently built network engineering lab using physical Cisco routers and switches and a FortiGate 80E firewall. The goal is to practice designing, configuring, validating, monitoring, and troubleshooting a small enterprise-style network.
-
-> **Scope:** Personal lab, not a production network or an employer-owned deployment. Configuration examples and architecture descriptions are for demonstration; see [validation notes](docs/architecture-and-validation.md) for details requiring clarification.
-
 ## Lab at a glance
 
 | Area | Equipment / technology |
