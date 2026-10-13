@@ -22,7 +22,7 @@ Hands-on, independently built network engineering lab using physical Cisco route
 
 ## Physical lab
 
-![Physical network equipment](media/lab-photo-1.jpg)
+![Physical network equipment](lab-photo-1.jpg)
 
 ![Lab and monitoring workstation](media/lab-photo-2.jpg)
 
