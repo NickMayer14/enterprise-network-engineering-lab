@@ -44,19 +44,41 @@ Cisco IOS and FortiGate configurations covering VLANs,
 
 ## Troubleshooting case studies
 
-| Symptom | Root cause | Resolution |
-| --- | --- | --- |
-| VRRP / management VLAN traffic not passing as expected | SW2 uplink was an access port instead of a trunk | Changed uplink to trunk and aligned native VLAN settings |
-| Zabbix could not reach SNMP targets | Missing routed path from monitoring subnet | Added required route and verified with `snmpwalk` |
-| R2 could not communicate with firewall | FortiGate interface/IP conflict | Reworked firewall-side interface using VLAN-based addressing |
+Problem #1
+After configuring PAgP EtherChannel between SW1 and SW2, the Port-channel1 interface failed to establish successfully.
+Symptoms
+- Port-channel1 remained down or individual interfaces were not bundled.
+- Intermittent connectivity between switches.
+- Devices connected to SW2 experienced network connectivity issues.
+Troubleshooting Commands
+show etherchannel summary
+show pagp neighbor
+show interfaces trunk
+show interfaces status
+show running-config interface port-channel 1
 
-See [troubleshooting details](docs/troubleshooting.md).
 
-## Validation and design notes
+Root Cause
+Both switches were configured with PAgP mode auto. Since neither switch actively initiated negotiation, EtherChannel could not form.
+Resolution
+Configured SW1 in desirable mode and SW2 in auto mode.
+SW1:
+interface range GigabitEthernet0/47 - 48
+ channel-group 1 mode desirable
 
-The original lab report describes both a FortiGate gateway role and a VRRP gateway role, and references different server VLAN subnets. These details should be reconciled against the running configurations before publishing a definitive end-to-end topology or claiming all client VLANs fail over through VRRP. The confirmed lab demonstration is VRRP router takeover; end-to-end service continuity requires separate verification.
 
-See [architecture and validation](docs/architecture-and-validation.md).
+SW2:
+interface range GigabitEthernet0/47 - 48
+ channel-group 1 mode auto
+
+
+Verification
+Executed:
+show etherchannel summary
+
+
+The expected output showed Po1(SU) with member interfaces marked (P), confirming that the EtherChannel was operational.
+Skills Demonstrated: Cisco Switching, PAgP, EtherChannel, Layer 2 Troubleshooting.
 
 
 
