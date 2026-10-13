@@ -9,7 +9,7 @@ A hands-on network engineering project built with **physical Cisco routers and s
 > **Project scope:** This is my independent home lab, not an employer production network. Implemented features are distinguished from proposed upgrades. The [architecture and validation notes](architecture-and-validation.md) identify design details that still need confirmation against running configurations.
 ## Network Topology
 
-![Enterprise Network Topology](Enterprise Network Engineering Lab Diagram.png)
+![Enterprise Network Topology] (Enterprise Network Engineering Lab Diagram.png)
 ## Physical Lab & Demonstration
 
 ![Network lab and monitoring setup](lab-photo-2.jpg)
