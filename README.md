@@ -1,79 +1,37 @@
-# Enterprise Network Engineering Lab
+# Cisco PAgP EtherChannel + DHCP Server/Relay Lab Extension
 
-### Cisco Routing & Switching | Fortinet FortiGate | Network Redundancy | Monitoring
+This is an **optional, reproducible configuration extension**, not evidence that the current live lab has these features enabled. Existing VLANs, VRRP, Zabbix and FortiGate configuration must be preserved. **Do not paste every file blindly.**
 
-**Mykyta Mamaiev** · CCNA Certified · Harrison, New Jersey
+## Existing lab assumptions verified from the repository
 
-A hands-on network engineering project built with **physical Cisco routers and switches**, a **Fortinet FortiGate 80E firewall**, and **Zabbix monitoring**. I designed this lab to practice enterprise-style network segmentation, routing, first-hop redundancy, network security, monitoring, and systematic troubleshooting on real hardware.
+- SW1 and SW2 are Cisco switches with an 802.1Q inter-switch trunk.
+- VLANs: 10 Users (10.10.10.0/24), 20 Voice (10.10.20.0/24), 30 Servers (10.10.30.0/24), 40 NVR (10.10.40.0/24), 50 Guests (10.10.50.0/24), 60 IoT (10.10.60.0/24), 99 Management (10.99.99.0/24).
+- Native VLAN 99 was described in the original lab report; confirm the current running config.
+- R1 management IP 10.99.99.2, R2 10.99.99.3; VRRP VIP 10.99.99.254 is documented **only for VLAN 99**.
+- FortiGate 80E already provides DHCP according to README; do not introduce competing DHCP servers on the same VLAN.
+- Zabbix 10.10.200.10 connects directly to FortiGate. This extension does not change Zabbix.
 
-> **Project scope:** This is my independent home lab, not an employer production network. Implemented features are distinguished from proposed upgrades. The [architecture and validation notes](architecture-and-validation.md) identify design details that still need confirmation against running configurations.
-## Network Topology
+## File index
 
-![Enterprise Network Topology](Enterprise%20Network%20Engineering%20Lab%20Diagram.png)
-## Physical Lab & Demonstration
+1. `01-SW1-PAgP.cfg` and `02-SW2-PAgP.cfg`: example IOS PAgP desirable/auto trunk EtherChannel. **Example ports Gi0/1 and Gi0/2 are placeholders**; use the actual two SW1–SW2 physical links. In the original report SW1 Gi0/1 was assigned to R1, so **do not use Gi0/1 on SW1 without remapping**.
+2. `03-DHCP-SERVER-R1-OPTION.cfg`: optional DHCP pools hosted on R1 IOS. This is a proposed design, not the existing FortiGate DHCP service. Use only if you intentionally move DHCP serving to R1 and confirm L3 routing.
+3. `04-DHCP-RELAY-GATEWAY-TEMPLATE.cfg`: relay configuration on whichever L3 interfaces are the **actual client VLAN default gateways**. Replace interface names and gateway addresses with verified values; do not assume VLAN 99 VRRP applies to client VLANs.
+4. `05-VERIFICATION.md`: validation, rollout and rollback.
 
-![Network lab and monitoring setup](lab-photo-2.jpg)
+## DHCP design choice
 
-**[Watch the lab walkthrough (MP4)](lab-demo.mp4)**
+The existing README says **FortiGate provides DHCP**. In that existing design, if FortiGate is also the directly connected gateway for a VLAN, **DHCP relay is unnecessary**. If the VLAN gateway is on a Cisco L3 interface and the DHCP server is elsewhere, add `ip helper-address` on that gateway and ensure routing both ways.
 
-## Infrastructure Overview
+For an explicit *DHCP Server + Relay* exercise without introducing a new physical server, this package uses **R1 as an optional IOS DHCP server at 10.99.99.2** and relay agents on the client VLAN gateways. This is an **alternative architecture** to the existing FortiGate DHCP setup. Before using it, disable overlapping FortiGate scopes for the affected VLANs, verify return routes to each subnet, and check IOS feature support.
 
-| Component | Implementation |
-| --- | --- |
-| Firewall / security | Fortinet FortiGate 80E |
-| Routers | Cisco 2900-series (R1) and Cisco 2821 (R2) |
-| Switches | Two physical Cisco switches (SW1 and SW2) |
-| VLAN segmentation | Users (10), Voice (20), Servers (30), Cameras/NVR (40), Guests (50), IoT (60), Management (99) |
-| Switching | 802.1Q trunks, STP, PortFast, BPDU Guard |
-| Routing / redundancy | Static routes and VRRP between two Cisco routers |
-| Firewall services | NAT, DHCP, segmentation and security policies |
-| Observability | Zabbix, SNMPv2 polling and traps |
-| Endpoint integration | Network video recorder (NVR) |
+**High availability caveat:** A single R1 DHCP server is not redundant when R1 fails. VRRP on VLAN 99 does not provide DHCP server HA. Production deployments need a separate resilient DHCP design.
 
-## Architecture & Engineering Work
+## Suggested README addition (after Switching paragraph)
 
-**Layer 2 switching:** Configured VLANs and 802.1Q trunk connections, propagated VLANs across the switching topology, and applied STP-related edge protections.
+```markdown
+### PAgP EtherChannel and DHCP Relay (Optional Lab Extension)
 
-**Layer 3 and resiliency:** Configured a VRRP virtual gateway (`10.99.99.254`) on two Cisco routers, with R1 configured at a higher priority than R2. Tested router role takeover by powering off R1. This validates **VRRP role failover**, not by itself uninterrupted connectivity for every client VLAN.
+A reproducible configuration example for a Cisco PAgP EtherChannel (`Port-channel1`) between SW1 and SW2, plus an alternative Cisco IOS DHCP server and relay design, is provided in [network-lab-additions](network-lab-additions/README.md). The extension includes configuration templates, implementation prerequisites, verification commands, and rollback steps. These features should be marked **implemented** only after validation on physical equipment.
+```
 
-**Fortinet security:** Integrated a FortiGate 80E for routing toward the upstream network, NAT, DHCP, and firewall policy exercises.
-
-**Monitoring:** Connected Cisco devices to Zabbix using SNMPv2 for interface and CPU monitoring, VRRP-state observation, and link-status events.
-
-## Troubleshooting: Problems Solved
-
-| Issue | Diagnosis | Corrective action |
-| --- | --- | --- |
-| VRRP-related traffic did not traverse the intended VLAN path | SW2 uplink configured as an access port instead of a trunk | Reconfigured uplink as a trunk and aligned native VLAN settings |
-| SNMP targets were unreachable from Zabbix | Missing routed path from monitoring subnet | Corrected routing and verified SNMP connectivity with `snmpwalk` |
-| R2 could not reach FortiGate | Firewall-side interface/address conflict | Reworked the connection using a VLAN-based firewall interface |
-
-Read the full [troubleshooting case studies](troubleshooting.md).
-
-## Validation Notes
-
-The original project report contains some inconsistencies about **server subnet addressing** and the exact **FortiGate/VRRP gateway path**. These are documented in [Architecture & Validation](architecture-and-validation.md), rather than silently presented as a fully verified end-to-end design. A final topology diagram and claims about client traffic failover should be based on actual device configurations and connectivity tests.
-
-## Next Iterations (Planned, Not Yet Implemented)
-
-- OSPF dynamic routing
-- VRFs and additional segmentation
-- LACP / EtherChannel
-- IPv6 dual-stack
-- NetFlow / IPFIX
-- FortiGate HA
-- Automated configuration backups with Ansible
-
-## Project Files
-
-- [Architecture and validation](architecture-and-validation.md)
-- [Troubleshooting case studies](troubleshooting.md)
-- [Video walkthrough](lab-demo.mp4)
-- [Equipment photo 1](lab-photo-1.jpg)
-- [Equipment photo 2](lab-photo-2.jpg)
-
-> **Security note:** Any configuration excerpts published in this repository should be sanitized to remove passwords, SNMP community strings, tokens, public addresses, and identifying management information. No employer-owned configurations or internal documentation should be posted.
-
----
-
-**About me:** CCNA-certified IT infrastructure professional with experience supporting network-connected systems at The New School and collaborating with its Network Engineering team. Interested in Network Engineer I, Junior Network Engineer, and Network Infrastructure roles in the New York / New Jersey area.
+Once EtherChannel is tested, replace the planned LACP bullet with an accurate PAgP implementation note. PAgP is Cisco-proprietary; LACP is a separate protocol and should not be described as already configured.
