@@ -1,5 +1,5 @@
 # Enterprise Network Engineering Lab
-
+![Enterprise Network Topology](Enterprise%20Network%20Engineering%20Lab%20Diagram.png)
 **Cisco Routing & Switching · Fortinet FortiGate · VRRP · VLAN Segmentation · Zabbix**
 
 Hands-on, independently built network engineering lab using physical Cisco routers and switches and a FortiGate 80E firewall. The goal is to practice designing, configuring, validating, monitoring, and troubleshooting a small enterprise-style network.
