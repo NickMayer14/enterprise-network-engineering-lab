@@ -511,15 +511,4 @@ show etherchannel summary
 show logging
 show ntp associations
 
-1. REVIEW ONLY. These are reconstructed lab templates, not verified device running-configs.
-2. Verify IOS model, software image, port names, feature support, and physical cabling.
-3. DHCP snooping trust is set only on SW1 router-facing trunks and inter-switch Port-channel1. Verify actual DHCP server location before enabling.
-4. DAI requires DHCP snooping bindings. STATIC IP devices in VLANs 10-60 may lose connectivity until ARP ACLs or appropriate static bindings are configured. Do not enable on those VLANs without an inventory.
-5. Port security maximum 2 is unsuitable for some IP phone + PC, hypervisor, or multi-MAC ports. Adjust individually.
-6. OSPF process 10 area 0 is proposed only between R1/R2 on 10.99.99.0/24. FortiGate remains statically routed; OSPF does not automatically provide internet failover or dynamic firewall routing. Both routers already have the same directly connected client VLANs.
-7. IP SLA target 1.1.1.1 must be reachable from R1 through FortiGate. If ICMP is filtered or internet is down, R1 VRRP priority drops by 60 and R2 may become master even though R2's upstream is also unavailable. Test before deployment. R2 has a monitoring-only SLA; no VRRP tracking on R2.
-8. SYSLOG and AAA require real collector/server IPs and secrets. They are templates, NOT enabled configurations.
-9. Cisco123 is a lab-only credential. Do not reuse it on other networks. Public repositories permanently expose historical secrets.
-10. Existing Cisco router VLAN subinterfaces use tagged VLANs, while SW1 trunks set native VLAN 99; verify actual L2 management/transit cabling and VLAN99 handling. Gi0/1 of routers is 10.99.99.0/24 and must share L2 adjacency for VRRP/OSPF.
-11. DHCP server is on R1. During R1 failure, DHCP lease renewals may fail until a redundant DHCP design is implemented. VRRP alone does not make DHCP redundant.
-12. FortiGate policies/NAT and the 10.10.200.0/24 Zabbix reachability are not specified by the supplied config; no fictional firewall rules are inserted.
+
