@@ -28,7 +28,7 @@ Cisco IOS and FortiGate configurations covering VLANs,
 
 ## Physical lab
 
-![Physical network equipment](lab-photo-1.jpg)
+![Physical network equipment](lab-photo-1.jpg.heic)
 
 
 [Watch the physical lab walkthrough](media/lab-demo.mp4)
