@@ -22,9 +22,9 @@ Cisco IOS and FortiGate configurations covering VLANs,
 | Segmentation | VLANs 10, 20, 30, 40, 50, 60 and management VLAN 99 |
 | Resiliency | VRRP first-hop redundancy with physical failover testing |
 | Layer 2 | 802.1Q trunks, STP, PortFast, BPDU Guard |
-| Layer 3 / security | Static routing, DHCP, NAT, firewall policies |
+| Layer 3 / security | OSPF, Static routing, DHCP, NAT, firewall policies |
 | Monitoring | Zabbix with SNMPv2 polling and traps |
-| Connected system | Network video recorder (NVR) on camera VLAN |
+| Connected system | Network video recorder (NVR) on camera VLAN, Endpoints |
 
 ## Physical lab
 
